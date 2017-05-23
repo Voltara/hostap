@@ -132,14 +132,6 @@ struct hostapd_data {
 #define STA_HASH(sta) (sta[5])
 	struct sta_info *sta_hash[STA_HASH_SIZE];
 
-	/*
-	 * Bitfield for indicating which AIDs are allocated. Only AID values
-	 * 1-2007 are used and as such, the bit at index 0 corresponds to AID
-	 * 1.
-	 */
-#define AID_WORDS ((2008 + 31) / 32)
-	u32 sta_aid[AID_WORDS];
-
 	const struct wpa_driver_ops *driver;
 	void *drv_priv;
 
@@ -461,6 +453,14 @@ struct hostapd_iface {
 
 	struct dl_list sta_seen; /* struct hostapd_sta_info */
 	unsigned int num_sta_seen;
+
+	/* XXX *TEMPORARY* workaround for mwlwifi multiple ssid
+	 * Bitfield for indicating which AIDs are allocated. Only AID values
+	 * 1-2007 are used and as such, the bit at index 0 corresponds to AID
+	 * 1.
+	 */
+#define AID_WORDS ((2008 + 31) / 32)
+	u32 sta_aid[AID_WORDS];
 };
 
 /* hostapd.c */
